@@ -1,0 +1,37 @@
+#!/usr/bin/php
+<?php
+
+// Find "php-require" by walking up the directories.
+
+$fullpath = null;
+$path = __DIR__;
+
+while (!$fullpath && strlen($path) > 1) {
+    $fullpath = $path . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array("node_modules", "php-require", "index.php"));
+    if (!file_exists($fullpath)) {
+        $fullpath = null;
+        $path = dirname($path);
+    }
+}
+
+// require php-require
+require_once($fullpath);
+
+// require the php-rewrite
+// require_once(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "index.php");
+
+$rewrite = $require(__DIR__ . DIRECTORY_SEPARATOR . "..");
+
+/*
+	Get CLI inputs;
+
+	--root = getcwd();
+	--type = ".htaccess" | "httpd.conf";
+*/
+
+$root = getcwd();
+$type = ".htaccess";
+
+echo "Reading files from: " . $root . "\n";
+
+$rewrite($root, $type);

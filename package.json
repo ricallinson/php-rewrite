@@ -1,6 +1,6 @@
 {
     "name": "php-rewrite",
-    "description": "Generates a configuration for Apache the mod_rewrite module from comments found in PHP files.",
+    "description": "Generates a configuration for the Apache mod_rewrite module from comments found in PHP files.",
     "version": "0.0.1",
     "author": {
         "name": "Ric Allinson",
