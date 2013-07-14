@@ -1,2 +1,2 @@
-./node_modules/php-tester/bin/tester
+php ./node_modules/.bin/tester
 exit $?

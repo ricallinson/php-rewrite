@@ -9,4 +9,4 @@ before_install:
   - sudo apt-get install node
   - npm install
 
-script: npm test
+script: ./test/run
