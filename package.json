@@ -23,7 +23,7 @@
         "url": "git@github.com:ricallinson/php-rewrite.git"
     },
     "scripts": {
-        "test": "tester"
+        "test": "./test/run"
     },
     "license": "MIT"
 }
