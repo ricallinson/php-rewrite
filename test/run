@@ -1,2 +1,2 @@
-./node_modules/.bin/tester
+../node_modules/.bin/tester
 exit $?
