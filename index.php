@@ -75,7 +75,7 @@ function findFiles($dir) {
 
     foreach ($cdir as $dirpath => $value) {
 
-        if (!in_array($value, array(".",".."))) {
+        if (!in_array($value, array(".", "..", "node_modules"))) {
 
             $fullpath = $dir . DIRECTORY_SEPARATOR . $value;
 
