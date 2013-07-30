@@ -83,7 +83,7 @@ function findFiles($dir) {
                 $routes = array_merge($routes, findFiles($fullpath));
             } else if (strpos($fullpath, ".php") !== false) {
                 $route = readRouteFromFile($fullpath);
-                if ($route) {
+                if (strlen($route) > 5) {
                     array_push($routes, array("route" => $route, "filename" => $fullpath));
                 }
             }
