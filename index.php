@@ -46,10 +46,11 @@ function writeHtaccessFile($dir, $routes) {
 
 function readRouteFromFile($filename) {
 
+    $routes = array();
     $marker = "@route";
 
     if (!file_exists($filename)) {
-        return null;
+        return $routes;
     }
 
     $content = file_get_contents($filename);
@@ -57,7 +58,7 @@ function readRouteFromFile($filename) {
     $start = strpos($content, $marker);
 
     if ($start === false) {
-        return null;
+        return $routes;
     }
 
     $start = $start + strlen($marker);
@@ -65,7 +66,14 @@ function readRouteFromFile($filename) {
 
     $routeString = trim(substr($content, $start, $end - $start));
 
-    return $routeString;
+    list($methods, $path) = explode(" ", $routeString, 2);
+    $methods = explode("|", $methods);
+
+    foreach ($methods as $method) {
+        array_push($routes, $method . " " . $path);
+    }
+
+    return $routes;
 }
 
 function findFiles($dir) {
@@ -83,9 +91,11 @@ function findFiles($dir) {
                 $routes = array_merge($routes, findFiles($fullpath));
             } else if (strpos($fullpath, ".php") !== false) {
                 $route = readRouteFromFile($fullpath);
-                if (strlen($route) > 4) {
-                    array_push($routes, array("route" => $route, "filename" => $fullpath));
-                }
+                foreach ($route as $methodPath) {
+                    if (strlen($methodPath) > 4) {
+                        array_push($routes, array("route" => $methodPath, "filename" => $fullpath));
+                    }
+                } 
             }
         }
     }
