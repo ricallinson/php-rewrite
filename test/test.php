@@ -1,4 +1,5 @@
 <?php
+use \php_require\rewrite_routes;
 
 /*
     Create a MockModule to load our module into for testing.
@@ -44,6 +45,21 @@ describe("php-rewrite", function () {
             $fixtures = __DIR__ . "/fixtures";
             $result = \php_require\rewrite_routes\readRouteFromFile($fixtures . "/file-3.php");
             assert($result === "GET /page.html");
+        });
+    });
+
+    describe("readRouteFromFile()", function () {
+
+        it ("should return a full list", function () {
+            $fixtures = __DIR__ . "/fixtures";
+            $results = \php_require\rewrite_routes\findFiles($fixtures);
+            assert(count($results) === 4);
+        });
+
+        it ("should return GET /sub.html", function () {
+            $fixtures = __DIR__ . "/fixtures";
+            $results = \php_require\rewrite_routes\findFiles($fixtures);
+            assert($results[3]["route"] === "GET /sub.html");
         });
     });
 });

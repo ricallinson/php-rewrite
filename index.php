@@ -68,22 +68,34 @@ function readRouteFromFile($filename) {
     return $routeString;
 }
 
-$module->exports = function ($dir, $type) {
+function findFiles($dir) {
 
-    $routes = array();
+    $routes = Array();
+    $cdir = scandir($dir);
 
-    if ($handle = opendir($dir)) {
-        while (false !== ($entry = readdir($handle))) {
-            if (strpos($entry, ".php") !== false) {
-                $filename = $dir . DIRECTORY_SEPARATOR . $entry;
-                $route = readRouteFromFile($filename);
+    foreach ($cdir as $dirpath => $value) {
+
+        if (!in_array($value, array(".",".."))) {
+
+            $fullpath = $dir . DIRECTORY_SEPARATOR . $value;
+
+            if (is_dir($fullpath)) {
+                $routes = array_merge($routes, findFiles($fullpath));
+            } else if (strpos($fullpath, ".php") !== false) {
+                $route = readRouteFromFile($fullpath);
                 if ($route) {
-                    array_push($routes, array("route" => $route, "filename" => $filename));
+                    array_push($routes, array("route" => $route, "filename" => $fullpath));
                 }
             }
         }
-        closedir($handle);
     }
+
+    return $routes;
+}
+
+$module->exports = function ($dir, $type) {
+
+    $routes = findFiles($dir);
 
     if ($type === ".htaccess") {
         return writeHtaccessFile($dir, $routes);
