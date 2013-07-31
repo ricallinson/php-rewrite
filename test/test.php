@@ -1,14 +1,7 @@
 <?php
 use \php_require\rewrite_routes;
 
-/*
-    Create a MockModule to load our module into for testing.
-*/
-
-class MockModule {
-    public $exports = array();
-}
-$module = new MockModule();
+$module = new stdClass();
 
 /*
     Now we "require()" the file to test.
@@ -78,7 +71,7 @@ describe("php-rewrite", function () {
                 return ($a["route"] < $b["route"]) ? -1 : 1;
             });
 
-            print_r($results);
+            // print_r($results);
 
             assert($results[4]["route"] === "GET /sub.html");
         });
