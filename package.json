@@ -13,9 +13,10 @@
         "rewrite": "bin/rewrite"
     },
     "dependencies" : {
-        "php-require": "git://github.com/ricallinson/php-require.git#master"
+        
     },
     "devDependencies" : {
+        "php-require": "git://github.com/ricallinson/php-require.git#master",
         "php-tester": "git://github.com/ricallinson/php-tester.git#master"
     },
     "repository": {

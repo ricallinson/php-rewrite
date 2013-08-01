@@ -6,19 +6,19 @@
 $fullpath = null;
 $path = __DIR__;
 
-while (!$fullpath && strlen($path) > 1) {
-    $fullpath = $path . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array("node_modules", "php-require", "index.php"));
-    if (!file_exists($fullpath)) {
+function findPhpRequire($path, $searchFor = array("node_modules", "php-require", "index.php")) {
+    $fullpath = null;
+    while ($fullpath === null && strlen($path) > 1) {
+        $fullpath = $path . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $searchFor);
+        if (file_exists($fullpath)) {
+            return $fullpath;
+        }
         $fullpath = null;
         $path = dirname($path);
     }
 }
 
-// require php-require
-require_once($fullpath);
-
-// require the php-rewrite
-// require_once(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "index.php");
+require_once(findPhpRequire(__DIR__));
 
 $rewrite = $require(__DIR__ . DIRECTORY_SEPARATOR . "..");
 
