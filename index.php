@@ -1,5 +1,5 @@
 <?php
-namespace php_require\rewrite_routes;
+namespace php_require\php_rewrite;
 
 function createApacheRewrite($route) {
 
@@ -41,7 +41,7 @@ function writeHtaccessFile($dir, $routes) {
         unlink($filename);
     }
 
-    file_put_contents($filename, "RewriteEngine On\n#RewriteBase " . $docroot . "\n\n" . implode("\n", $rules));
+    return file_put_contents($filename, "RewriteEngine On\n#RewriteBase " . $docroot . "\n\n" . implode("\n", $rules));
 }
 
 function readRouteFromFile($filename) {
@@ -66,6 +66,10 @@ function readRouteFromFile($filename) {
 
     $routeString = trim(substr($content, $start, $end - $start));
 
+    if (strlen($routeString) < 5) {
+        return $routes;
+    }
+
     list($methods, $path) = explode(" ", $routeString, 2);
     $methods = explode("|", $methods);
 
@@ -83,7 +87,7 @@ function findFiles($dir) {
 
     foreach ($cdir as $dirpath => $value) {
 
-        if (!in_array($value, array(".", "..", "node_modules"))) {
+        if (!in_array($value, array(".", "..", "test"))) {
 
             $fullpath = $dir . DIRECTORY_SEPARATOR . $value;
 
