@@ -34,4 +34,4 @@ $type = ".htaccess";
 
 echo "Reading files from: " . $root . "\n";
 
-$rewrite($root, $type);
+$routes = $rewrite($root, $type, true);

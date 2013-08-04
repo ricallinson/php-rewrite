@@ -107,11 +107,16 @@ function findFiles($dir) {
     return $routes;
 }
 
-$module->exports = function ($dir, $type) {
+$module->exports = function ($dir, $type, $log = false) {
 
     $routes = findFiles($dir);
 
     if ($type === ".htaccess") {
+        if ($log) {
+            foreach ($routes as $route) {
+                echo $route["filename"] . "\n";
+            }
+        }
         return writeHtaccessFile($dir, $routes);
     } else if ($type === "httpd.conf") {
         return null;
