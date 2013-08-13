@@ -111,12 +111,13 @@ $module->exports = function ($dir, $type, $log = false) {
 
     $routes = findFiles($dir);
 
-    if ($type === ".htaccess") {
-        if ($log) {
-            foreach ($routes as $route) {
-                echo $route["filename"] . "\n";
-            }
+    if ($log) {
+        foreach ($routes as $route) {
+            echo $route["filename"] . "\n";
         }
+    }
+
+    if ($type === ".htaccess") {
         return writeHtaccessFile($dir, $routes);
     } else if ($type === "httpd.conf") {
         return null;

@@ -183,5 +183,19 @@ describe("php-rewrite", function () use ($module) {
 
             assert($result === null);
         });
+
+        it ("should return []", function () use ($module) {
+
+            $rewrite = $module->exports;
+
+            $fixtures = __DIR__ . "/fixtures";
+            $type = "httpd.conf";
+
+            ob_start();
+            $rewrite($fixtures, $type, true);
+            $result = ob_get_clean();
+
+            assert(strpos($result, "/fixtures/file-1.php") !== false);
+        });
     });
 });
